@@ -22,7 +22,8 @@ namespace ERDRParser.ViewModel
         {
             Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
             f1Class = new List<F1Class>();
-            inputList = new List<string>();         
+            inputList = new List<string>();
+            
         }
 
         #region Properties
@@ -98,7 +99,8 @@ namespace ERDRParser.ViewModel
                         OpenFileDialog openFileDialog = new OpenFileDialog();
                         if (openFileDialog.ShowDialog() == true)
                         {
-                            f1Class = ExcellToList.GetDataList(openFileDialog.FileName);
+                            f1Class = ExcellToClass.GetF1(ExcellToList.GetExcellList(openFileDialog.FileName));
+                          
                         }
                         MessageBox.Show("Загружено");
                         break;
@@ -211,7 +213,6 @@ namespace ERDRParser.ViewModel
                 AdditionalMarksText = result;
             }
         }
-
 
         #endregion
     }

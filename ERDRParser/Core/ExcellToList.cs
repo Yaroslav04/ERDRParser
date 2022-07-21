@@ -110,5 +110,39 @@ namespace ERDRParser.Core
             }
             return list;
         }
+
+        public static List<List<string>> GetExcellList(string _path)
+        {
+            List<List<string>> list = new List<List<string>>();
+
+            using (Stream stream = File.Open(_path, FileMode.Open, FileAccess.Read))
+            {
+                IExcelDataReader reader;
+                reader = ExcelDataReader.ExcelReaderFactory.CreateReader(stream);
+                var conf = new ExcelDataSetConfiguration
+                {
+                    ConfigureDataTable = _ => new ExcelDataTableConfiguration
+                    {
+                        UseHeaderRow = true
+                    }
+                };
+
+                var dataSet = reader.AsDataSet(conf);
+                DataTable dataTable = dataSet.Tables[0];
+
+                for (var i = 0; i < dataTable.Rows.Count; i++)
+                {
+                    List<string> sublist = new List<string>();
+
+                    for(var j = 0; j < dataTable.Columns.Count; j++)
+                    {
+                        sublist.Add(dataTable.Rows[i][j].ToString());
+                    }
+
+                    list.Add(sublist);
+                }
+            }
+            return list;
+        }
     }
 }
